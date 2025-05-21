@@ -187,7 +187,7 @@ public class Calculator extends JFrame implements ActionListener {
         if (e.getSource() == decButton) {
             String temp = textField.getText();
             if (!temp.contains(".")) {
-                //preventing adding more than one cecimal
+                //preventing adding more than one decimal
                 textField.setText(temp + ".");
             }
         }
