@@ -305,20 +305,25 @@ public class Calculator extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == subButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3"); //sonidos
-                // ESPECIAL: Si está vacío o estamos empezando una nueva expresión, simplemente agregamos el "-" para número negativo
-                if (textField.getText().isEmpty() || flow.isNewExpression()) {
+                SoundPlayer.playSound("sounds\\button_soundeffect.mp3");
+                // ESPECIAL: Solo permitir número negativo si es verdaderamente una nueva expresión (sin operación seleccionada)
+                if (textField.getText().isEmpty() || (flow.isNewExpression() && flow.getSelectedOperation() == '\0')) {
                     textField.setText("-");
                     flow.getExpression().append("-");
                     flow.setEqualsPressed(false);
                     flow.setNewExpression(false);
                 } else {
-                    flow.setNum1(Double.parseDouble(textField.getText()));
-                    flow.setSelectedOperation('-');
-                    textField.setText("");
-                    flow.getExpression().append("-");
-                    flow.setEqualsPressed(false);
-                    updateExpressionDisplay(); 
+                    // Validar que no esté vacío o solo tenga signo negativo
+                    if (textField.getText().isEmpty() || textField.getText().equals("-")) {
+                        return;
+                    } else {
+                        flow.setNum1(Double.parseDouble(textField.getText()));
+                        flow.setSelectedOperation('-');
+                        textField.setText("");
+                        flow.getExpression().append("-");
+                        flow.setEqualsPressed(false);
+                        updateExpressionDisplay();
+                    }
                 }
             }
 
