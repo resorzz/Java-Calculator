@@ -35,27 +35,11 @@ This is a basic calculator application built with Java Swing, featuring a modern
 - **Audio**: javax.sound.sampled
 - **Architecture**: MVC Pattern
 
-## 📁 Project Structure
-src/
-├── Calculator.java # Main UI and event handling
-├── CalculatorFlow.java # State management and flow control
-├── CalculatorOperations.java # Mathematical operations
-├── History.java # Operation history management
-├── SoundPlayer.java # Audio system
-├── ui.java # Theme and styling
-├── Principal.java # Application entry point
-├── icon/
-│ └── icon.png # Application icon
-└── sounds/
-├── button_soundeffect.wav # Button press sounds
-├── equ_button_soundeffect.wav # Equals button sound
-└── error_effect.wav # Error notification sound
-
 ## 🎯 Getting Started
 
 ### Prerequisites
 - Java Development Kit (JDK) 8 or higher
-- Any Java IDE (IntelliJ IDEA, Eclipse, NetBeans, etc.)
+- Any Java compatible IDE (IntelliJ IDEA, Eclipse, NetBeans, etc.)
 
 ### Installation & Running
 
@@ -79,7 +63,7 @@ java -cp src Principal
 
 1. **Basic Operations**: Click number buttons and operators (+, -, ×, ÷)
 2. **Calculate**: Press the equals button (=) to get results
-3. **History**: Click any previous calculation in the history panel to reuse its result
+3. **History**: Click any previous calculation in the history panel to reuse its result. History retains the past 300 operations, if you click in the result of them, it will move to the main display.
 4. **Clear**: Use 'C' to clear everything or 'Del' to delete the last character
 5. **Sign Toggle**: Use '±' to change the sign of the current number
 
@@ -102,15 +86,6 @@ java -cp src Principal
 - Graceful error recovery
 - User-friendly error messages
 
-## 🤝 Contributing
-
-This is a student project, but contributions and suggestions are welcome! Feel free to:
-
-- Report bugs by opening an issue
-- Suggest new features
-- Submit pull requests for improvements
-- Share feedback on the code structure
-
 ## 📚 Learning Outcomes
 
 This project helped me develop skills in:
@@ -130,11 +105,3 @@ This project helped me develop skills in:
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE). Do whatever you want with it.
-
-## 📞 Contact
-
-Feel free to reach out if you have any questions or suggestions about this project!
-
----
-
-**Note**: This calculator was developed as part of my first-year DAM studies and represents my journey in learning Java development. The code reflects educational purposes and continuous learning in software development.
