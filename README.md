@@ -1,6 +1,6 @@
 # Java Calculator 🧮
 
-![Calculator Preview](https://github.com/resorzz/Java-Calculator/blob/main/src/icon/icon.png)
+![Calculator Image](https://github.com/resorzz/Java-Calculator/blob/main/src/icon/icon.png)
 
 Welcome to my Java Calculator project! This modern calculator application was developed as part of my first-year DAM (Desarrollo de Aplicaciones Multiplataforma) studies and was inspired by Bro Code's Java calculator tutorial.
 
@@ -27,6 +27,8 @@ This is a basic calculator application built with Java Swing, featuring a modern
 - **Memory Management**: Efficient audio resource handling with automatic cleanup
 - **Input Validation**: Robust error checking and user input validation
 - **Responsive Design**: Calculator layout with intuitive button placement
+
+![Calculator Preview](https://github.com/resorzz/Java-Calculator/blob/main/images/calculator_ui.png)
 
 ## 🛠️ Technical Stack
 
