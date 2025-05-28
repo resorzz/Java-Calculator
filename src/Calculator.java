@@ -3,54 +3,45 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Calculator extends JFrame implements ActionListener {
-
     JTextField textField;
-    JTextField expressionField; 
+    JTextField expressionField;
     JButton[] numberButtons = new JButton[10];
     JButton[] operatorButtons = new JButton[9];
     JButton addButton, subButton, multButton, divButton, negButton;
     JButton decButton, equButton, delButton, clrButton;
     JPanel panel;
     Font myFont = new Font("Segoe UI", Font.BOLD, 30);
-
     private History history;
-    public JList<String> historyList; 
-    private DefaultListModel<String> historyModel; 
+    public JList<String> historyList;
+    private DefaultListModel<String> historyModel;
     public JButton clearHistoryButton;
     public JPanel historyPanel;
-
     private CalculatorFlow flow = new CalculatorFlow();
 
     public Calculator() {
         setTitle("Calculadora en Java");
-
         // Cargar y redimensionar el icono de la ventana
         ImageIcon originalIcon = new ImageIcon("icon\\icon.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         setIconImage(resizedIcon.getImage());
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 650); 
-        setLayout(new BorderLayout()); 
+        setSize(700, 650);
+        setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setResizable(false);
-        
         // Inicializar historial antes de crear componentes porque algunos lo necesitan
         history = new History();
         historyModel = new DefaultListModel<>(); // Modelo para la JList del historial
-        
         initComponents();
     }
 
-    private void initComponents() {     // Orden importante: primero crear paneles, luego limpiar campos, finalmente aplicar tema
+    private void initComponents() { // Orden importante: primero crear paneles, luego limpiar campos, finalmente aplicar tema
         createCalculatorPanel();
         createHistoryPanel();
-
         textField.setText("");
-        expressionField.setText("");  // Asegurar que los campos empiecen vacíos
-
-        ui.applyPurpleTheme(this);      // Aplicar tema visual morado
+        expressionField.setText(""); // Asegurar que los campos empiecen vacíos
+        ui.applyPurpleTheme(this); // Aplicar tema visual morado
     }
 
     private void createCalculatorPanel() {
@@ -59,12 +50,10 @@ public class Calculator extends JFrame implements ActionListener {
         calculatorPanel.setLayout(null); // Layout absoluto porque necesitamos posiciones exactas para el diseño de calculadora
         calculatorPanel.setPreferredSize(new Dimension(420, 650));
         calculatorPanel.setOpaque(false);
-        
         addPanel();
         addTextFields();
         addButtons();
         addLabels();
-        
         // Agregar todos los componentes al panel de la calculadora
         calculatorPanel.add(expressionField);
         calculatorPanel.add(textField);
@@ -72,7 +61,6 @@ public class Calculator extends JFrame implements ActionListener {
         calculatorPanel.add(delButton);
         calculatorPanel.add(clrButton);
         calculatorPanel.add(negButton);
-        
         this.add(calculatorPanel, BorderLayout.CENTER); // Ocupar el centro de la ventana principal
     }
 
@@ -80,12 +68,10 @@ public class Calculator extends JFrame implements ActionListener {
         historyPanel = new JPanel();
         historyPanel.setLayout(new BorderLayout());
         historyPanel.setPreferredSize(new Dimension(280, 650));
-        
         // Lista del historial + Título del historial
         JLabel historyTitle = new JLabel("Historial", JLabel.CENTER);
         historyTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
         historyPanel.add(historyTitle, BorderLayout.NORTH);
-        
         // Listener para cuando seleccionas una operación del historial
         historyList = new JList<>(historyModel);
         historyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -93,36 +79,31 @@ public class Calculator extends JFrame implements ActionListener {
             if (!e.getValueIsAdjusting() && historyList.getSelectedValue() != null) {
                 String selectedOperation = historyList.getSelectedValue();
                 String result = history.extractResult(selectedOperation);
-                
                 // Poner el resultado en la calculadora y resetear para nueva operación
                 textField.setText(result);
                 flow.reset();
                 flow.setNewExpression(true);
                 expressionField.setText("");
-                
                 // Deseleccionar después de usar
                 historyList.clearSelection();
             }
         });
-        
         JScrollPane historyScrollPane = new JScrollPane(historyList);
         historyPanel.add(historyScrollPane, BorderLayout.CENTER);
-        
         // Botón para limpiar historial
         clearHistoryButton = new JButton("Limpiar Historial");
         clearHistoryButton.addActionListener(e -> {
-            SoundPlayer.playSound("sounds\\equ_button_soundeffect.mp3");
+            SoundPlayer.playSound("equ_button_soundeffect.wav");
             history.clearHistory();
             updateHistoryDisplay();
         });
         historyPanel.add(clearHistoryButton, BorderLayout.SOUTH);
-        
         this.add(historyPanel, BorderLayout.EAST);
     }
 
     private void addPanel() {
         panel = new JPanel();
-        panel.setBounds(50, 150, 300, 300); 
+        panel.setBounds(50, 150, 300, 300);
         panel.setLayout(new GridLayout(4, 4, 10, 10));
     }
 
@@ -133,7 +114,6 @@ public class Calculator extends JFrame implements ActionListener {
         expressionField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         expressionField.setEditable(false);
         expressionField.setHorizontalAlignment(JTextField.RIGHT);
-        
         textField = new JTextField(); // Campo principal donde se muestra el número/resultado
         textField.setBounds(50, 70, 300, 60);
         textField.setFont(myFont);
@@ -151,7 +131,6 @@ public class Calculator extends JFrame implements ActionListener {
         delButton = new JButton("Del");
         clrButton = new JButton("C");
         negButton = new JButton("±");
-
         // Array para manejar todos los botones de operadores juntos
         operatorButtons[0] = addButton;
         operatorButtons[1] = subButton;
@@ -162,25 +141,21 @@ public class Calculator extends JFrame implements ActionListener {
         operatorButtons[6] = delButton;
         operatorButtons[7] = clrButton;
         operatorButtons[8] = negButton;
-
         for (int i = 0; i < operatorButtons.length; i++) {
             operatorButtons[i].addActionListener(this);
             operatorButtons[i].setFont(myFont);
             operatorButtons[i].setFocusable(false);
         }
-
         for (int i = 0; i < numberButtons.length; i++) {
             numberButtons[i] = new JButton(String.valueOf(i));
             numberButtons[i].setFont(myFont);
             numberButtons[i].setFocusable(false);
             numberButtons[i].addActionListener(this);
         }
-
         // Posiciones absolutas para botones especiales
-        negButton.setBounds(50, 480, 100, 50); 
+        negButton.setBounds(50, 480, 100, 50);
         delButton.setBounds(150, 480, 100, 50);
         clrButton.setBounds(250, 480, 100, 50);
-
         // Agregar botones al grid en orden específico (como calculadora real)
         panel.add(numberButtons[7]);
         panel.add(numberButtons[8]);
@@ -201,7 +176,6 @@ public class Calculator extends JFrame implements ActionListener {
     }
 
     private void addLabels() {
-        
     }
 
     private void displayResult(double value) {
@@ -222,7 +196,6 @@ public class Calculator extends JFrame implements ActionListener {
                 case '*': operator = " × "; break;
                 case '/': operator = " ÷ "; break;
             }
-            
             if (flow.getNum1() == (long) flow.getNum1()) {
                 expressionField.setText(String.format("%d%s", (long) flow.getNum1(), operator));
             } else {
@@ -251,11 +224,9 @@ public class Calculator extends JFrame implements ActionListener {
             case '*': operatorSymbol = " × "; break;
             case '/': operatorSymbol = " ÷ "; break;
         }
-        
         String num1Str = (num1 == (long) num1) ? String.format("%d", (long) num1) : String.valueOf(num1);
         String num2Str = (num2 == (long) num2) ? String.format("%d", (long) num2) : String.valueOf(num2);
         String resultStr = (result == (long) result) ? String.format("%d", (long) result) : String.valueOf(result);
-        
         return num1Str + operatorSymbol + num2Str + " = " + resultStr;
     }
 
@@ -270,7 +241,7 @@ public class Calculator extends JFrame implements ActionListener {
             // Manejo de botones numéricos
             for (int i = 0; i < 10; i++) {
                 if (e.getSource() == numberButtons[i]) {
-                    SoundPlayer.playSound("sounds\\button_soundeffect.mp3"); //sonidos
+                    SoundPlayer.playSound("button_soundeffect.wav"); //sonidos
                     textField.setText(textField.getText().concat(String.valueOf(i)));
                     flow.getExpression().append(i);
                     flow.setEqualsPressed(false);
@@ -279,7 +250,7 @@ public class Calculator extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == decButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3"); //sonidos
+                SoundPlayer.playSound("button_soundeffect.wav"); //sonidos
                 if (!textField.getText().contains(".")) { // Solo un punto decimal por número
                     textField.setText(textField.getText().concat("."));
                     flow.getExpression().append(".");
@@ -289,7 +260,7 @@ public class Calculator extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == addButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3"); //sonidos
+                SoundPlayer.playSound("button_soundeffect.wav"); //sonidos
                 // Validar que no esté vacío o solo tenga signo negativo
                 if (textField.getText().isEmpty() || textField.getText().equals("-")) {
                     // No hacemos nada si está vacío o solo tiene un signo negativo
@@ -300,12 +271,12 @@ public class Calculator extends JFrame implements ActionListener {
                     textField.setText("");
                     flow.getExpression().append("+");
                     flow.setEqualsPressed(false);
-                    updateExpressionDisplay(); 
+                    updateExpressionDisplay();
                 }
             }
 
             if (e.getSource() == subButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3");
+                SoundPlayer.playSound("button_soundeffect.wav");
                 // ESPECIAL: Solo permitir número negativo si es verdaderamente una nueva expresión (sin operación seleccionada)
                 if (textField.getText().isEmpty() || (flow.isNewExpression() && flow.getSelectedOperation() == '\0')) {
                     textField.setText("-");
@@ -328,7 +299,7 @@ public class Calculator extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == multButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3"); //sonidos
+                SoundPlayer.playSound("button_soundeffect.wav"); //sonidos
                 if (textField.getText().isEmpty() || textField.getText().equals("-")) {
                     return;
                 } else {
@@ -337,12 +308,12 @@ public class Calculator extends JFrame implements ActionListener {
                     textField.setText("");
                     flow.getExpression().append("*");
                     flow.setEqualsPressed(false);
-                    updateExpressionDisplay(); 
+                    updateExpressionDisplay();
                 }
             }
 
             if (e.getSource() == divButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3");
+                SoundPlayer.playSound("button_soundeffect.wav");
                 if (textField.getText().isEmpty() || textField.getText().equals("-")) {
                     return;
                 } else {
@@ -351,28 +322,31 @@ public class Calculator extends JFrame implements ActionListener {
                     textField.setText("");
                     flow.getExpression().append("/");
                     flow.setEqualsPressed(false);
-                    updateExpressionDisplay(); 
+                    updateExpressionDisplay();
                 }
             }
 
             if (e.getSource() == equButton) {
-                SoundPlayer.playSound("sounds\\equ_button_soundeffect.mp3");
+                // NO reproducir sonido aquí - se decidirá después según si hay error o no
                 if (!textField.getText().isEmpty() && !textField.getText().equals("-")) {
                     if (!flow.isEqualsPressed()) {
                         flow.setNum2(Double.parseDouble(textField.getText()));
-                        if (CalculatorOperations.isDivisionByZero(flow.getSelectedOperation(), flow.getNum2())) { // salta error si se divide por 0
+                        if (CalculatorOperations.isDivisionByZero(flow.getSelectedOperation(), flow.getNum2())) { 
+                            // ERROR: Solo reproducir sonido de error
+                            SoundPlayer.playSound("error_effect.wav");
                             textField.setText("Error: Division by 0");
                             flow.setHasError(true);
                             return;
                         }
 
+                        // ÉXITO: Reproducir sonido de equals ya que no hay error
+                        SoundPlayer.playSound("equ_button_soundeffect.wav");
                         double result = CalculatorOperations.performOperation(flow.getNum1(), flow.getNum2(), flow.getSelectedOperation());
                         
                         // Agregar al historial
                         String operationString = createOperationString(flow.getNum1(), flow.getNum2(), flow.getSelectedOperation(), result);
                         history.addOperation(operationString);
                         updateHistoryDisplay();
-                        
                         flow.setLastNumber(flow.getNum2()); // Guardar para repetir operación
                         displayResult(result);
                         flow.setNum1(result);
@@ -380,42 +354,44 @@ public class Calculator extends JFrame implements ActionListener {
                         flow.setEqualsPressed(true);
                         flow.setExpression(new StringBuilder(String.valueOf(result)));
                         flow.setNewExpression(true);
-                        expressionField.setText(""); 
-                    } else { 
+                        expressionField.setText("");
+                    } else {
                         // Presionar equals múltiples veces repite la última operación
                         flow.setNum1(Double.parseDouble(textField.getText()));
                         if (CalculatorOperations.isDivisionByZero(flow.getSelectedOperation(), flow.getLastNumber())) {
+                            // ERROR: Solo reproducir sonido de error
+                            SoundPlayer.playSound("error_effect.wav");
                             textField.setText("Error: Division by 0");
                             flow.setHasError(true);
                             return;
                         }
 
+                        // ÉXITO: Reproducir sonido de equals ya que no hay error
+                        SoundPlayer.playSound("equ_button_soundeffect.wav");
                         double result = CalculatorOperations.performOperation(flow.getNum1(), flow.getLastNumber(), flow.getSelectedOperation());
-                        
-                         // Agregar al historial
+                        // Agregar al historial
                         String operationString = createOperationString(flow.getNum1(), flow.getLastNumber(), flow.getSelectedOperation(), result);
                         history.addOperation(operationString);
                         updateHistoryDisplay();
-                        
                         displayResult(result);
                         flow.setNum1(result);
                         flow.setResult(result);
                         flow.setExpression(new StringBuilder(String.valueOf(result)));
                         flow.setNewExpression(true);
-                        expressionField.setText(""); 
+                        expressionField.setText("");
                     }
                 }
             }
 
             if (e.getSource() == clrButton) {
-                SoundPlayer.playSound("sounds\\equ_button_soundeffect.mp3");
+                SoundPlayer.playSound("equ_button_soundeffect.wav");
                 textField.setText("");
-                expressionField.setText(""); 
+                expressionField.setText("");
                 flow.reset(); // Resetear todo el estado
             }
 
             if (e.getSource() == delButton) {
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3");
+                SoundPlayer.playSound("button_soundeffect.wav");
                 String string = textField.getText();
                 if (!string.isEmpty()) {
                     textField.setText(string.substring(0, string.length() - 1)); // Borrar último carácter
@@ -427,7 +403,7 @@ public class Calculator extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == negButton) { // Botón +/- para cambiar signo
-                SoundPlayer.playSound("sounds\\button_soundeffect.mp3");
+                SoundPlayer.playSound("button_soundeffect.wav");
                 if (!textField.getText().isEmpty() && !textField.getText().equals("-")) {
                     double temp = Double.parseDouble(textField.getText());
                     temp = CalculatorOperations.toggleSign(temp);
@@ -440,12 +416,12 @@ public class Calculator extends JFrame implements ActionListener {
 
         } catch (Exception ex) {
             // Manejo de errores generales (formato de número inválido, etc.)
-            SoundPlayer.playSound("sounds\\error_effect.mp3");
             textField.setText("Error");
-            expressionField.setText(""); 
+            expressionField.setText("");
             flow.setExpression(new StringBuilder());
             flow.setNewExpression(true);
             flow.setHasError(true);
+            SoundPlayer.playSound("error_effect.wav");
         }
     }
 }
