@@ -13,7 +13,7 @@ public class History {
     public void addOperation(String operation) {
         operations.add(0, operation); // Agregar al inicio para que aparezca arriba
         
-        // Mantener solo las últimas 10 operaciones
+        // Mantener solo las últimas 300 operaciones
         if (operations.size() > MAX_OPERATIONS) {
             operations.remove(operations.size() - 1);
         }
