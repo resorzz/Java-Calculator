@@ -1,3 +1,4 @@
+//Gestiona el estado interno de la operación (números, operador, resultado, si se ha pulsado igual, etc.)
 public class CalculatorFlow {
 
     private double num1 = 0;

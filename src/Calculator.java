@@ -11,9 +11,10 @@ public class Calculator extends JFrame implements ActionListener {
     JButton decButton, equButton, delButton, clrButton;
     JPanel panel;
     Font myFont = new Font("Segoe UI", Font.BOLD, 30);
+
     private History history;
-    public JList<String> historyList;
-    private DefaultListModel<String> historyModel;
+    public JList<String> historyList; // (JList) solo contendrá elementos de tipo String
+    private DefaultListModel<String> historyModel; // DefaultListModel<String> solo contendrá elementos de tipo String
     public JButton clearHistoryButton;
     public JPanel historyPanel;
     private CalculatorFlow flow = new CalculatorFlow();
@@ -29,7 +30,9 @@ public class Calculator extends JFrame implements ActionListener {
         setSize(700, 650);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
+        setMinimumSize(new Dimension(700, 650));
+
         // Inicializar historial antes de crear componentes porque algunos lo necesitan
         history = new History();
         historyModel = new DefaultListModel<>(); // Modelo para la JList del historial
@@ -68,10 +71,12 @@ public class Calculator extends JFrame implements ActionListener {
         historyPanel = new JPanel();
         historyPanel.setLayout(new BorderLayout());
         historyPanel.setPreferredSize(new Dimension(280, 650));
+
         // Lista del historial + Título del historial
         JLabel historyTitle = new JLabel("Historial", JLabel.CENTER);
         historyTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
         historyPanel.add(historyTitle, BorderLayout.NORTH);
+
         // Listener para cuando seleccionas una operación del historial
         historyList = new JList<>(historyModel);
         historyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -90,6 +95,7 @@ public class Calculator extends JFrame implements ActionListener {
         });
         JScrollPane historyScrollPane = new JScrollPane(historyList);
         historyPanel.add(historyScrollPane, BorderLayout.CENTER);
+
         // Botón para limpiar historial
         clearHistoryButton = new JButton("Limpiar Historial");
         clearHistoryButton.addActionListener(e -> {
@@ -114,10 +120,11 @@ public class Calculator extends JFrame implements ActionListener {
         expressionField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         expressionField.setEditable(false);
         expressionField.setHorizontalAlignment(JTextField.RIGHT);
+
         textField = new JTextField(); // Campo principal donde se muestra el número/resultado
         textField.setBounds(50, 70, 300, 60);
         textField.setFont(myFont);
-        textField.setEditable(false);
+        textField.setEditable(true);
         textField.setHorizontalAlignment(JTextField.RIGHT);
     }
 
@@ -131,6 +138,7 @@ public class Calculator extends JFrame implements ActionListener {
         delButton = new JButton("Del");
         clrButton = new JButton("C");
         negButton = new JButton("±");
+
         // Array para manejar todos los botones de operadores juntos
         operatorButtons[0] = addButton;
         operatorButtons[1] = subButton;
@@ -156,6 +164,7 @@ public class Calculator extends JFrame implements ActionListener {
         negButton.setBounds(50, 480, 100, 50);
         delButton.setBounds(150, 480, 100, 50);
         clrButton.setBounds(250, 480, 100, 50);
+
         // Agregar botones al grid en orden específico (como calculadora real)
         panel.add(numberButtons[7]);
         panel.add(numberButtons[8]);
