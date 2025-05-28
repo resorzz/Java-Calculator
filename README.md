@@ -27,8 +27,15 @@ This is a basic calculator application built with Java Swing, featuring a modern
 - **Memory Management**: Efficient audio resource handling with automatic cleanup
 - **Input Validation**: Robust error checking and user input validation
 - **Responsive Design**: Calculator layout with intuitive button placement
-
-![Calculator Preview](https://github.com/resorzz/Java-Calculator/blob/main/images/calculator_ui.png)
+<br>
+<br>
+<p align="center">
+  <img src="https://github.com/resorzz/Java-Calculator/blob/main/images/calculator_ui.png" alt="Calculator Preview" width="60%">
+  <br>
+  <em>Preview of the calculator</em>
+</p>
+<br>
+<br>
 
 ## 🛠️ Technical Stack
 
